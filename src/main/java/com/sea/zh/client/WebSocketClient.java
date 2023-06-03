@@ -1,18 +1,16 @@
-package com.example.seasys.client;
-import com.example.seasys.service.TokenService;
+package com.sea.zh.client;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.sea.zh.service.TokenService;
 import okhttp3.*;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.mongodb.util.BsonUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -25,42 +23,42 @@ public class WebSocketClient {
     private final TokenService tokenService;
 
 //    使用@Value注解将配置值注入
-    @Value("${spring.data.mongodb.host}")
-    private String mongoHost;
-
-    @Value("${spring.data.mongodb.port}")
-    private int mongoPort;
-
-    @Value("${spring.data.mongodb.database}")
-    private String mongoDatabase;
-
-    @Value(value = "${spring.session.mongodb.collection-name}")
-    private String mongoCollection;
-
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    private MongoCollection<Document> collection;
-
-    // MongoDB连接相关配置
-//    private static final String MONGO_HOST = "localhost";
-//    private static final int MONGO_PORT = 27017;
-//    private static final String MONGO_DATABASE = "MonitorSysDb";
-//    private static final String MONGO_COLLECTION = "ship";
+//    @Value("${spring.data.mongodb.host}")
+//    private String mongoHost;
+//
+//    @Value("${spring.data.mongodb.port}")
+//    private int mongoPort;
+//
+//    @Value("${spring.data.mongodb.database}")
+//    private String mongoDatabase;
+//
+//    @Value(value = "${spring.session.mongodb.collection-name}")
+//    private String mongoCollection;
+//
 //    private MongoClient mongoClient;
 //    private MongoDatabase database;
 //    private MongoCollection<Document> collection;
+
+    // MongoDB连接相关配置
+    private static final String MONGO_HOST = "localhost";
+    private static final int MONGO_PORT = 27017;
+    private static final String MONGO_DATABASE = "MonitorSysDb";
+    private static final String MONGO_COLLECTION = "ship";
+    private MongoClient mongoClient;
+    private MongoDatabase database;
+    private MongoCollection<Document> collection;
 
     public WebSocketClient(TokenService tokenService) {
         this.tokenService = tokenService;
         this.httpClient = new OkHttpClient();
 
         // 初始化MongoDB连接  spring.data.mongodb.uri=mongodb://localhost:27017/MonitorSysDb
-        mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
-        database = mongoClient.getDatabase(mongoDatabase);
-        collection = database.getCollection(mongoCollection);
-//        mongoClient = MongoClients.create("mongodb://" + MONGO_HOST + ":" + MONGO_PORT);
-//        database = mongoClient.getDatabase(MONGO_DATABASE);
-//        collection = database.getCollection(MONGO_COLLECTION);
+//        mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
+//        database = mongoClient.getDatabase(mongoDatabase);
+//        collection = database.getCollection(mongoCollection);
+        mongoClient = MongoClients.create("mongodb://" + MONGO_HOST + ":" + MONGO_PORT);
+        database = mongoClient.getDatabase(MONGO_DATABASE);
+        collection = database.getCollection(MONGO_COLLECTION);
     }
 
     private void storeData(JSONObject data) {
@@ -69,6 +67,8 @@ public class WebSocketClient {
         Document document = Document.parse(data.toString());
         collection.insertOne(document);
     }
+
+
     public void connectAndReceiveData() {
         try {
             String accessToken = tokenService.getToken();

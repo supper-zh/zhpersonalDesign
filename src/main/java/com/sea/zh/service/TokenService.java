@@ -1,4 +1,5 @@
-package com.example.seasys.service;
+package com.sea.zh.service;
+
 import okhttp3.*;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
