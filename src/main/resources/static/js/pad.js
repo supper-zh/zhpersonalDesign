@@ -1,15 +1,15 @@
 //填充数据
 const shipData = [
-    { targetId: "1", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "2", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "3", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "4", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "5", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "6", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "7", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "8", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "9", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
-    { targetId: "10", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "-122.5678", length: "-122.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "1", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "1", length: "1", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "2", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "0", length: "8", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "3", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "2", length: "78", speed: "5", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "4", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "1", length: "8", speed: "5", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "5", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "1", length: "-8", speed: "5", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "6", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "1", length: "8", speed: "5", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "7", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "8", speed: "5", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "8", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "9", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
+    { targetId: "10", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436562346", fixed: "false" /* 其他属性 */ },
     // 其他查询到的数据对象
 ];
 // 获取表格的<tbody>元素
@@ -32,19 +32,19 @@ shipData.forEach(ship => {
     const longitudeCell = document.createElement("td");
     longitudeCell.textContent = ship.latitude;
     const courseCell = document.createElement("td");
-    courseCell.textContent = ship.longitude;
+    courseCell.textContent = ship.course;
     const typeCell = document.createElement("td");
-    typeCell.textContent = ship.longitude;
+    typeCell.textContent = ship.type;
     const stateCell = document.createElement("td");
-    stateCell.textContent = ship.longitude;
+    stateCell.textContent = ship.state;
     const lengthCell = document.createElement("td");
-    lengthCell.textContent = ship.longitude;
+    lengthCell.textContent = ship.length;
     const speedCell = document.createElement("td");
-    speedCell.textContent = ship.longitude;
+    speedCell.textContent = ship.speed;
     const timestampCell = document.createElement("td");
-    timestampCell.textContent = ship.longitude;
+    timestampCell.textContent = ship.timestamp;
     const fixedCell = document.createElement("td");
-    fixedCell.textContent = ship.longitude;
+    fixedCell.textContent = ship.fixed;
     // 创建其他单元格并填充数据
 
     row.appendChild(targetIdCell);

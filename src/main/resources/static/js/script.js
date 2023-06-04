@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchForm = document.getElementById('searchForm');
     const latLonForm = document.getElementById('latLonForm');
     const typeForm = document.getElementById('typeForm');
-    const timestampForm = document.getElementById('timestampForm');
+    const timeForm = document.getElementById('timeForm');
     const stateForm = document.getElementById('stateForm');
     const lengthForm = document.getElementById('lengthForm');
     const speedForm = document.getElementById('speedForm');
@@ -38,12 +38,18 @@ document.addEventListener('DOMContentLoaded', function() {
         getShipsByType(type);
     });
 
-    timestampForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const startTimestamp = document.getElementById('startTimestampInput').value;
-        const endTimestamp = document.getElementById('endTimestampInput').value;
-        getShipsByTimestampRange(startTimestamp, endTimestamp);
+    timeForm.addEventListener('submit', function(event) {
+        event.preventDefault();// 阻止表单的默认提交行为
+        // 获取用户输入的具体时间
+        const startTimeInput = document.getElementById('startTimeInput');
+        const endTimeInput = document.getElementById('endTimeInput');
+        const startDateTimeString = startTimeInput.value;
+        const endDateTimeString = endTimeInput.value;
+        // 将具体时间转换为时间戳
+        const startTimestamp = Date.parse(startDateTimeString);
+        const endTimestamp = Date.parse(endDateTimeString);
+        // 执行查询操作，使用转换后的时间戳进行查询
+        getShipsByTimestampRange(startTimestamp, endTimestamp)
     });
 
     stateForm.addEventListener('submit', function(event) {
@@ -199,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${ship.state}</td>
                     <td>${ship.length}</td>
                     <td>${ship.speed}</td>
-                    <td>${ship.timestamp}</td>
+                    <td>${formatTimestamp(ship.timestamp)}</td>
                     <td>${ship.fixed}</td>
                 `;
                     table.appendChild(row);
@@ -304,6 +310,19 @@ document.addEventListener('DOMContentLoaded', function() {
     //         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     //         .join('&');
 
+    // 格式化时间戳
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
     function getShipsByMmsi(mmsi) {
         // 发起AJAX请求，获取船舶数据
         fetch(`/api/ship/mmsi/${mmsi}`)
@@ -354,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -418,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -484,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -549,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -614,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -679,7 +698,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -743,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -806,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <td>${ship.state}</td>
               <td>${ship.length}</td>
               <td>${ship.speed}</td>
-              <td>${ship.timestamp}</td>
+              <td>${formatTimestamp(ship.timestamp)}</td>
               <td>${ship.fixed}</td>
             `;
                     table.appendChild(row);
@@ -869,7 +888,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <td>${ship.state}</td>
               <td>${ship.length}</td>
               <td>${ship.speed}</td>
-              <td>${ship.timestamp}</td>
+              <td>${formatTimestamp(ship.timestamp)}</td>
               <td>${ship.fixed}</td>
             `;
                     table.appendChild(row);
@@ -932,7 +951,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
@@ -1008,7 +1027,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${ship.state}</td>
           <td>${ship.length}</td>
           <td>${ship.speed}</td>
-          <td>${ship.timestamp}</td>
+          <td>${formatTimestamp(ship.timestamp)}</td>
           <td>${ship.fixed}</td>
         `;
                     table.appendChild(row);
