@@ -6,9 +6,9 @@ function startWebSocket() {
     intervalId = setInterval(sendStartRequest, 24 * 60 * 60 * 1000); // 设置定时器，每24小时发送一次请求
 }
 function stopWebSocket() {
-    sendStopRequest();//增加点击后立即停止接收数据功能
     // 停止定时器
     clearInterval(intervalId);
+    sendStopRequest();//增加点击后立即停止接收数据功能
 }
 
 function sendStartRequest() {

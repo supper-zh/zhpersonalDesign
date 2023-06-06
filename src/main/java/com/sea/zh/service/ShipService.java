@@ -27,7 +27,9 @@ public class ShipService {
 //    public List<Ship> getAllShips() {
 //        return shipRepository.findAllShip();
 //    }
-
+    public List<Ship> getShipsBytargetId(String targetId) {
+        return shipRepository.findBytargetId(targetId);
+    }
     public List<Ship> getShipsByMmsi(int mmsi) {
         return shipRepository.findByMmsi(mmsi);
     }
@@ -67,8 +69,8 @@ public class ShipService {
         return shipRepository.findByState(state);
     }
 
-    public List<Ship> getShipsByLengthGreaterThan(int length) {
-        return shipRepository.findByLengthGreaterThan(length);
+    public List<Ship> getShipsByLength(int length) {
+        return shipRepository.findByLength(length);
     }
 
     public List<Ship> getShipsBySpeedLessThan(double speed) {
@@ -118,4 +120,10 @@ public class ShipService {
         Query query = Query.query(criteria);
         return shipRepository.searchShips(query);
     }
+
+//    public Page<Ship> getShipsByState(int state, int pageNumber, int pageSize) {
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+//        return shipRepository.findByStatePage(state, pageable);
+//    }
+
 }

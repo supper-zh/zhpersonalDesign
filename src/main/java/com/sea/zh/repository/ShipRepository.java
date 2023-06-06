@@ -1,6 +1,8 @@
 package com.sea.zh.repository;
 
 import com.sea.zh.model.Ship;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,7 @@ import java.util.List;
 @Repository
 public interface ShipRepository extends MongoRepository<Ship, String> {
 //    List<Ship> findAllShip(); //查询所有船舶信息
+    List<Ship> findBytargetId(String targetId);
     List<Ship> findByMmsi(int mmsi);  // 根据mmsi字段查询船舶信息。
     List<Ship> findByLatitudeBetween(double start, double end); // 查询纬度在指定范围内的船舶信息。
     List<Ship> findByLongitudeBetween(double start, double end); // 查询经度在指定范围内的船舶信息。
@@ -33,4 +36,10 @@ public interface ShipRepository extends MongoRepository<Ship, String> {
     List<Ship> findByLengthBetween(double minLength, double maxLength);//查询指定长度范围内的船舶
 
     List<Ship> searchShips(Query query);
+
+//    分页查询尝试
+    Page<Ship> findByStatePage(int state, Pageable pageable);
+
+
+    List<Ship> findByLength(int length);
 }
