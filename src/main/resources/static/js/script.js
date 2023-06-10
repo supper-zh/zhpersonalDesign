@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const targetIdForm = document.getElementById('targetIdForm');
     const searchForm = document.getElementById('searchForm');
@@ -10,14 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const stateForm = document.getElementById('stateForm');
     const lengthForm = document.getElementById('lengthForm');
     const speedForm = document.getElementById('speedForm');
-    const mmsiListForm = document.getElementById('mmsiListForm');
     const shipList = document.getElementById('shipList');
     const lengthRangeForm = document.getElementById('lengthRangeForm');
     const LongitudeRangeForm = document.getElementById('LongitudeRangeForm');
     const LatitudeRangeForm = document.getElementById('LatitudeRangeForm');
-    const combinedSearchForm = document.getElementById('combinedSearchForm');
     const exportCSVButton = document.getElementById("exportCSVButton");
-    const exportExcelButton = document.getElementById("exportExcelButton");
+    const exportExcelButton = document.getElementById("exportExcelButton1");
 
     exportExcelButton.addEventListener("click", exportToExcel);
 
@@ -126,121 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
         getShipsByLongitudeRange(LongitudeStart, LongitudeEnd);
     });
 
-    mmsiListForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        // 去除空格和非数字字符
-        // const sanitizedMmsiList = mmsiList.replace(/\s/g, '').replace(/[^0-9,]/g, '');
-        // // 将逗号分隔的数字字符串转换为数字数组
-        // const mmsiArray = sanitizedMmsiList.split(',').map(Number);
-        const mmsiList = document.getElementById('mmsiListInput').value;
-        const mmsiArray = mmsiList.split(',').map(Number);
-        getShipsByMmsiList(mmsiArray);
-    });
-
-    combinedSearchForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const state = document.getElementById('stateInputCombined').value;
-        const type = document.getElementById('typeInputCombined').value;
-        const minLength = document.getElementById('minLengthInput').value;
-        const maxLength = document.getElementById('maxLengthInput').value;
-        const startLat = document.getElementById('startLatInputCombined').value;
-        const endLat = document.getElementById('endLatInputCombined').value;
-        const startLon = document.getElementById('startLonInputCombined').value;
-        const endLon = document.getElementById('endLonInputCombined').value;
-        const startTimestamp = document.getElementById('startTimestampInputCombined').value;
-        const endTimestamp = document.getElementById('endTimestampInputCombined').value;
-        const minSpeed = document.getElementById('minSpeedInputCombined').value;
-        const maxSpeed = document.getElementById('maxSpeedInputCombined').value;
-
-        getShipsByCombinedSearch(state, type, minLength, maxLength, startLat, endLat, startLon, endLon, startTimestamp, endTimestamp, minSpeed, maxSpeed);
-    });
-
-
-    function getShipsByCombinedSearch(state, type, minLength, maxLength, startLat, endLat, startLon, endLon, startTimestamp, endTimestamp, minSpeed, maxSpeed) {
-        // 构造请求参数对象
-        const params = {
-            state: state,
-            type: type,
-            minLength: minLength,
-            maxLength: maxLength,
-            startLat: startLat,
-            endLat: endLat,
-            startLon: startLon,
-            endLon: endLon,
-            startTimestamp: startTimestamp,
-            endTimestamp: endTimestamp,
-            minSpeed: minSpeed,
-            maxSpeed: maxSpeed
-        };
-
-        // 构造查询字符串
-        const queryString = Object.keys(params)
-            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-            .join('&');
-
-        // 发起AJAX请求，获取船舶数据
-        fetch(`/api/ship/search?${queryString}`)
-            .then(response => response.json()) // 将响应数据转换为JSON格式
-            .then(data => {
-                // 清空shipList div的内容
-                shipList.innerHTML = '';
-
-                // 检查船舶数据是否为空
-                if (data.length === 0) {
-                    shipList.innerHTML = '<p>No ships found.</p>';
-                    return;
-                }
-
-                // 创建表格元素
-                const table = document.createElement('table');
-                table.innerHTML = `
-            <thead>
-                <tr>
-                    <th>targetId</th>
-                    <th>mmsi</th>
-                    <th>heading</th>
-                    <th>latitude</th>
-                    <th>longitude</th>
-                    <th>course</th>
-                    <th>type</th>
-                    <th>state</th>
-                    <th>length</th>
-                    <th>speed</th>
-                    <th>time</th>
-                    <th>fixed</th>
-                </tr>
-            </thead>
-            `;
-
-                // 遍历船舶数据，并添加到表格中
-                data.forEach(ship => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                    <td>${ship.targetId}</td>
-                    <td>${ship.mmsi}</td>
-                    <td>${ship.heading}</td>
-                    <td>${ship.latitude}</td>
-                    <td>${ship.longitude}</td>
-                    <td>${ship.course}</td>
-                    <td>${ship.type}</td>
-                    <td>${ship.state}</td>
-                    <td>${ship.length}</td>
-                    <td>${ship.speed}</td>
-                    <td>${formatTimestamp(ship.timestamp)}</td>
-                    <td>${ship.fixed}</td>
-                `;
-                    table.appendChild(row);
-                });
-
-                // 将表格添加到shipList div中
-                shipList.appendChild(table);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                shipList.innerHTML = '<p>An error occurred while retrieving ships.</p>';
-            });
-    }
 
 
     function getShipsBytargetId(targetId) {
@@ -437,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-
     function getShipsByType(type) {
         // 发起AJAX请求，获取船舶数据
         fetch(`/api/ship/type/${type}`)
@@ -541,7 +420,6 @@ document.addEventListener('DOMContentLoaded', function() {
           </tr>
         </thead>
       `;
-
                 // 遍历船舶数据，并添加到表格中
                 data.forEach(ship => {
                     const row = document.createElement('tr');
@@ -571,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // 数据分段加载
+
     function getShipsByState(state) {
         // 发起AJAX请求，获取船舶数据
         fetch(`/api/ship/state/${state}`)
@@ -667,72 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 shipList.innerHTML = '<p>An error occurred while retrieving ships.</p>';
             });
     }
-
-
-
-    // function getShipsByState(state) {
-    //     // 发起AJAX请求，获取船舶数据
-    //     fetch(`/api/ship/state/${state}`)
-    //         .then(response => response.json()) // 将响应数据转换为JSON格式
-    //         .then(data => {
-    //             // 清空shipList div的内容
-    //             shipList.innerHTML = '';
-    //
-    //             // 检查船舶数据是否为空
-    //             if (data.length === 0) {
-    //                 shipList.innerHTML = '<p>No ships found.</p>';
-    //                 return;
-    //             }
-    //
-    //             // 创建表格元素
-    //             const table = document.createElement('table');
-    //             table.innerHTML = `
-    //     <thead>
-    //       <tr>
-    //         <th>targetId</th>
-    //         <th>mmsi</th>
-    //         <th>heading</th>
-    //         <th>latitude</th>
-    //         <th>longitude</th>
-    //         <th>course</th>
-    //         <th>type</th>
-    //         <th>state</th>
-    //         <th>length</th>
-    //         <th>speed</th>
-    //         <th>time</th>
-    //         <th>fixed</th>
-    //       </tr>
-    //     </thead>
-    //   `;
-    //
-    //             // 遍历船舶数据，并添加到表格中
-    //             data.forEach(ship => {
-    //                 const row = document.createElement('tr');
-    //                 row.innerHTML = `
-    //       <td>${ship.targetId}</td>
-    //       <td>${ship.mmsi}</td>
-    //       <td>${ship.heading}</td>
-    //       <td>${ship.latitude}</td>
-    //       <td>${ship.longitude}</td>
-    //       <td>${ship.course}</td>
-    //       <td>${ship.type}</td>
-    //       <td>${ship.state}</td>
-    //       <td>${ship.length}</td>
-    //       <td>${ship.speed}</td>
-    //       <td>${formatTimestamp(ship.timestamp)}</td>
-    //       <td>${ship.fixed}</td>
-    //     `;
-    //                 table.appendChild(row);
-    //             });
-    //
-    //             // 将表格添加到shipList div中
-    //             shipList.appendChild(table);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             shipList.innerHTML = '<p>An error occurred while retrieving ships.</p>';
-    //         });
-    // }
 
     function getShipsByLength(length) {
         // 发起AJAX请求，获取船舶数据
@@ -1051,105 +863,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-
-    // function getShipsByMmsiList(mmsiList) {
-    //     mmsiList.forEach((mmsi) => {
-    //         const requestBody = { mmsi: mmsi }; // Create the request body object with the current mmsi value
-    //
-    //         fetch('/api/ship/mmsione', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(requestBody)
-    //         })
-    //             .then(response => response.json())
-    //             .then(data => {
-    //                 shipList.innerHTML += JSON.stringify(data); // Append the data to the shipList div
-    //             })
-    //             .catch(error => {
-    //                 console.log('Error:', error);
-    //             });
-    //     });
-    // }
-
-    function getShipsByMmsiList(mmsiList) {
-        // 构造请求体对象
-        const requestBody = {
-            mmsiList: mmsiList
-        };
-        // console.log(mmsiList)
-
-        // 发起AJAX请求，获取船舶数据
-        fetch('/api/ship/mmsiList', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody) // 将请求体对象转换为JSON格式
-        })
-            .then(response => response.json()) // 将响应数据转换为JSON格式
-            .then(data => {
-                // 清空shipList div的内容
-                shipList.innerHTML = '';
-                console.log(data)
-                // 检查船舶数据是否为空
-                if (data.length === 0) {
-                    shipList.innerHTML = '<p>No ships found.</p>';
-                    return;
-                }
-
-                // 创建表格元素
-                const table = document.createElement('table');
-                table.innerHTML = `
-        <thead>
-          <tr>
-            <th>targetId</th>
-            <th>mmsi</th>
-            <th>heading</th>
-            <th>latitude</th>
-            <th>longitude</th>
-            <th>course</th>
-            <th>type</th>
-            <th>state</th>
-            <th>length</th>
-            <th>speed</th>
-            <th>time</th>
-            <th>fixed</th>
-          </tr>
-        </thead>
-      `;
-
-                // 遍历船舶数据，并添加到表格中
-                data.forEach(ship => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-          <td>${ship.targetId}</td>
-          <td>${ship.mmsi}</td>
-          <td>${ship.heading}</td>
-          <td>${ship.latitude}</td>
-          <td>${ship.longitude}</td>
-          <td>${ship.course}</td>
-          <td>${ship.type}</td>
-          <td>${ship.state}</td>
-          <td>${ship.length}</td>
-          <td>${ship.speed}</td>
-          <td>${formatTimestamp(ship.timestamp)}</td>
-          <td>${ship.fixed}</td>
-        `;
-                    table.appendChild(row);
-                });
-
-                // 将表格添加到shipList div中
-                shipList.appendChild(table);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                shipList.innerHTML = '<p>An error occurred while retrieving ships.</p>';
-            });
-    }
-
-
     function exportToCSV() {
         const csvRows = [];// 创建一个空数组，用于存储 CSV 的每一行数据
         const headers = Array.from(document.querySelectorAll("#shipList thead tr th")).map(header => header.textContent.trim());
@@ -1188,8 +901,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // 下载完成后，从文档中移除 <a> 元素
     }
 
-
-
     function exportToExcel() {
         // const table = document.getElementById("shipList table");
         const table = document.querySelector("#shipList table");
@@ -1223,8 +934,4 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
-
-
 });
-
-

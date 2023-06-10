@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>船舶详细信息查询</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/style3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <title>查询船舶数据</title>-->
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="index.html">查询船舶数据</a></li>
+        <li><a href="shipsDetail.html">查询船舶详细信息</a></li>
+        <li><a href="History.html">查询船舶历史数据</a></li>
+        <li><a href="connectControl.html">远程连接控制</a></li>
+    </ul>
+</nav>
+
+<div class="main">
+    <h2 id="findShipsInfo">查询船舶详细信息</h2>
+    导入csv文件批量查询， CSV 文件的格式：<br>
+    targetId1,mmsi1<br>
+    targetId2,mmsi2<br>
+    targetId3,mmsi3<br>
+    ...
+
+    <form id="shipsInfoForm">
+        <input type="file" id="fileInput" accept=".xlsx, .csv">
+        <button type="submit">Search</button>
+    </form>
+    <h3>船舶详细信息展示</h3>
+    <button id="exportAsCsvButton">导出为CSV</button>
+    <div id="resultContainer">
+        {展示查询数据区...}
+    </div>
+
+</div>
+<script type="text/javascript" src="./js/xlsx.core.min.js"></script>
+<!--<script src="js/websocketConnect.js"></script>-->
+<!--<script src="js/script.js"></script>-->
+<script src="js/fileReader.js"></script>
+<!--<script src="js/Timer.js"></script>-->
+<!--<script src="js/pad.js"></script>-->
+</body>
+</html>

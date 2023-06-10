@@ -5,11 +5,11 @@ const shipData = [
     { targetId: "3", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "2", length: "78", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
     { targetId: "4", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "1", length: "8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
     { targetId: "5", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "AIS_A", state: "1", length: "-8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
-    { targetId: "6", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "1", length: "8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
-    { targetId: "7", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
-    { targetId: "8", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
-    { targetId: "9", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
-    { targetId: "10", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
+    // { targetId: "6", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "1", length: "8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
+    // { targetId: "7", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "8", speed: "5", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
+    // { targetId: "8", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
+    // { targetId: "9", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
+    // { targetId: "10", mmsi: "413489990", heading: "157", latitude: "19.956206", longitude: "110.01837",course: "290.3", type: "RADAR", state: "0", length: "2.5678", speed: "0", timestamp: "1685436578875", fixed: "false" /* 其他属性 */ },
     // 其他查询到的数据对象
 ];
 // 获取表格的<tbody>元素
@@ -26,6 +26,7 @@ function formatTimestamp(timestamp) {
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
 // 清空<tbody>元素中的内容
 tbody.innerHTML = "";
 

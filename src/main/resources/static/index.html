@@ -3,95 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ship Data</title>
+    <title>船舶数据查询</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/style3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 <body>
-
-
-
-<!--<div class="sidebar">-->
-<div class="options">
-    <h2>Search Options</h2>
+<nav>
     <ul>
-        <li>
-            <h3><a href="#searchBytargetId">Search by targetId</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByMMSI">Search by MMSI</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByType">Search by Type</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByState">Search by State</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByLength">Search by over length </a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByLengthRange">Search by Length Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByLongitudeRange">Search by Longitude Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByLatitudeRange">Search by Latitude Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByLatLon">Search by Latitude and Longitude Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByTimestamp">Search by Timestamp Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchBySpeed">Search by Speed Range</a></h3>
-        </li>
-        <li>
-            <h3><a href="#searchByMMSIList">Search by MMSI List</a></h3>
-        </li>
+        <li><a href="index.html">查询船舶数据</a></li>
+        <li><a href="shipsDetail.html">查询船舶详细信息</a></li>
+        <li><a href="History.html">查询船舶历史数据</a></li>
+        <li><a href="connectControl.html">远程连接控制</a></li>
     </ul>
-</div>
-
-<!--    <h2>本地数据库操作</h2>-->
-<!--    <a href="/db/token">测试连接：获取token</a><br>-->
-<!--    <a href="/db/start">开启WebSocket连接，开始接收数据</a><br>-->
-<!--    <a href="/db/stop">关闭WebSocket连接，停止接收数据</a><br>-->
-
+</nav>
 
 <div class="main">
-    <button id="startButton">打开定时器（定期刷新token）并开始接收数据</button>
-    <button id="stopButton">关闭定时器并停止接收数据</button><br>
-
-    <h1>Ships data </h1>
-    <h3 id="searchBytargetId">Search by targetId</h3>
+    <h1>数据库船舶信息查询</h1>
+    <h3 id="searchBytargetId">按目标ID查询</h3>
     <form id="targetIdForm">
         <input type="text" id="targetIdInput" placeholder="Enter targetId">
         <button type="submit">Search</button>
     </form>
 
-    <h3 id="searchByMMSI">Search by MMSI</h3>
+    <h3 id="searchByMMSI">按MMSI查询</h3>
     <form id="searchForm">
         <input type="text" id="mmsiInput" placeholder="Enter MMSI">
         <button type="submit">Search</button>
     </form>
+    <h3 id="searchByLength">按特定长度查询</h3>
+    <form id="lengthForm">
+        <input type="text" id="lengthInput" placeholder="Enter Length">
+        <button type="submit">Search</button>
+    </form>
 
-    <h3 id="searchByType">Search by Type</h3>
+    <h3 id="searchByType">按目标类型查询</h3>
     <form id="typeForm">
         <input type="text" id="typeInput" placeholder="Enter Type">
         <button type="submit">Search</button>
     </form>
 
-    <h3 id="searchByState">Search by State</h3>
-    <p>备注：单独通过state查询到的数据量巨大，导致性能问题。故采用分批加载，需等待加载完毕后导出。</p>
+    <h3 id="searchByState">按船舶状态查询</h3>
+    <p>备注：单独通过state查询到的数据量巨大，导致性能问题；<br>故采用分批加载，需等待加载完毕后才能完整导出。</p>
     <form id="stateForm">
         <input type="text" id="stateInput" placeholder="Enter State">
         <button type="submit">Search</button>
     </form>
 
-    <h3 id="searchByLatLon">Search by Latitude and Longitude Range</h3>
+
+    <h3 id="searchByTime">按时间范围查询</h3>
+    <p>输入示例：2023-05-30 16:49:38</p>
+    <form id="timeForm">
+        <input type="text" id="startTimeInput" placeholder="Start Time(YYYY-MM-DD HH:mm:ss)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" title="Please enter a valid time format (YYYY-MM-DD HH:mm:ss)">
+        <input type="text" id="endTimeInput" placeholder="End Time(YYYY-MM-DD HH:mm:ss)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" title="Please enter a valid time format (YYYY-MM-DD HH:mm:ss)">
+        <button type="submit">Search</button>
+    </form>
+
+    <h3 id="searchByLengthRange">按长度范围查询</h3>
+    <form id="lengthRangeForm">
+        <input type="text" id="minLength" placeholder="Enter minLength">
+        <input type="text" id="maxLength" placeholder="Enter maxLength">
+        <button type="submit">Search</button>
+    </form>
+<!--    -->
+    <h3 id="searchByLongitudeRange">按经度范围查询</h3>
+    <form id="LongitudeRangeForm">
+        <input type="text" id="LongitudeStart" placeholder="Enter LongitudeStart">
+        <input type="text" id="LongitudeEnd" placeholder="LongitudeEnd">
+        <button type="submit">Search</button>
+    </form>
+    <h3 id="searchByLatitudeRange">按维度范围查询</h3>
+    <form id="LatitudeRangeForm">
+        <input type="text" id="LatitudeStart" placeholder="Enter LatitudeStart">
+        <input type="text" id="LatitudeEnd" placeholder="Enter LatitudeEnd">
+        <button type="submit">Search</button>
+    </form>
+
+    <h3 id="searchBySpeed">按速度范围查询</h3>
+    <form id="speedForm">
+        <input type="text" id="minSpeedInput" placeholder="Min Speed">
+        <input type="text" id="maxSpeedInput" placeholder="Max Speed">
+        <button type="submit">Search</button>
+    </form>
+
+    <h3 id="searchByLatLon">按经度和纬度范围查询</h3>
     <form id="latLonForm">
         <input type="text" id="startLatInput" placeholder="Start Latitude">
         <input type="text" id="endLatInput" placeholder="End Latitude">
@@ -100,85 +97,45 @@
         <button type="submit">Search</button>
     </form>
 
-    <h3 id="searchByTime">Search by Time Range</h3>
-    <p>输入示例：2023-05-30 16:49:38 &nbsp;&nbsp; 2023-06-01 23:38:01</p>
-    <form id="timeForm">
-        <input type="text" id="startTimeInput" placeholder="Start Time(YYYY-MM-DD HH:mm:ss)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" title="Please enter a valid time format (YYYY-MM-DD HH:mm:ss)">
-        <input type="text" id="endTimeInput" placeholder="End Time(YYYY-MM-DD HH:mm:ss)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" title="Please enter a valid time format (YYYY-MM-DD HH:mm:ss)">
-        <button type="submit">Search</button>
-    </form>
+<!--    <h3 id="searchByMMSIList">Search by MMSI List</h3>-->
+<!--    <form id="mmsiListForm">-->
+<!--        <input type="text" id="mmsiListInput" placeholder="Enter MMSI List (',' separated)">-->
+<!--        <button type="submit">Search</button>-->
+<!--    </form>-->
 
-    <h3 id="searchByLength">Search by length </h3>
-    <form id="lengthForm">
-        <input type="text" id="lengthInput" placeholder="Enter Length">
-        <button type="submit">Search</button>
-    </form>
-    <h3 id="searchByLengthRange">Search by Length Range</h3>
-    <form id="lengthRangeForm">
-        <input type="text" id="minLength" placeholder="Enter minLength">
-        <input type="text" id="maxLength" placeholder="Enter maxLength">
-        <button type="submit">Search</button>
-    </form>
-<!--    -->
-    <h3 id="searchByLongitudeRange">Search by Longitude Range</h3>
-    <form id="LongitudeRangeForm">
-        <input type="text" id="LongitudeStart" placeholder="Enter LongitudeStart">
-        <input type="text" id="LongitudeEnd" placeholder="LongitudeEnd">
-        <button type="submit">Search</button>
-    </form>
-    <h3 id="searchByLatitudeRange">Search by Latitude Range</h3>
-    <form id="LatitudeRangeForm">
-        <input type="text" id="LatitudeStart" placeholder="Enter LatitudeStart">
-        <input type="text" id="LatitudeEnd" placeholder="Enter LatitudeEnd">
-        <button type="submit">Search</button>
-    </form>
+<!--    <h3 id="search">Search By Combined Options:</h3>-->
+<!--    <form id="combinedSearchForm">-->
+<!--            <label for="stateInput">State:</label>-->
+<!--            <input type="text" id="stateInputCombined" name="state" placeholder="state">-->
+<!--        <br>-->
+<!--            <label for="typeInput">Type:</label>-->
+<!--            <input type="text" id="typeInputCombined" name="type" placeholder="Type">-->
+<!--        <br>-->
+<!--            <label for="lengthRangeInput">Length Range:</label>-->
+<!--            <input type="number" id="minLengthInput" name="minLength" placeholder="Min Length">-->
+<!--            <input type="number" id="maxLengthInput" name="maxLength" placeholder="Max Length">-->
+<!--        <br>-->
+<!--            <label for="latLonRangeInput">Latitude and Longitude Range:</label>-->
+<!--            <input type="number" id="startLatInputCombined" name="startLat" placeholder="Start Latitude">-->
+<!--            <input type="number" id="endLatInputCombined" name="endLat" placeholder="End Latitude">-->
+<!--            <input type="number" id="startLonInputCombined" name="startLon" placeholder="Start Longitude">-->
+<!--            <input type="number" id="endLonInputCombined" name="endLon" placeholder="End Longitude">-->
+<!--        <br>-->
+<!--            <label for="timestampRangeInput">Timestamp Range:</label>-->
+<!--            <input type="number" id="startTimestampInputCombined" name="startTimestamp" placeholder="Start Timestamp">-->
+<!--            <input type="number" id="endTimestampInputCombined" name="endTimestamp" placeholder="End Timestamp">-->
+<!--        <br>-->
+<!--            <label for="speedRangeInput">Speed Range:</label>-->
+<!--            <input type="number" id="minSpeedInputCombined" name="minSpeed" placeholder="Min Speed">-->
+<!--            <input type="number" id="maxSpeedInputCombined" name="maxSpeed" placeholder="Max Speed">-->
+<!--    <button type="submit">Search</button>-->
 
-    <h3 id="searchBySpeed">Search by Speed Range</h3>
-    <form id="speedForm">
-        <input type="text" id="minSpeedInput" placeholder="Min Speed">
-        <input type="text" id="maxSpeedInput" placeholder="Max Speed">
-        <button type="submit">Search</button>
-    </form>
+<!--    </form>-->
 
-    <h3 id="searchByMMSIList">Search by MMSI List</h3>
-    <form id="mmsiListForm">
-        <input type="text" id="mmsiListInput" placeholder="Enter MMSI List (',' separated)">
-        <button type="submit">Search</button>
-    </form>
-
-    <h3 id="search">Search By Combined Options:</h3>
-    <form id="combinedSearchForm">
-            <label for="stateInput">State:</label>
-            <input type="text" id="stateInputCombined" name="state" placeholder="state">
-        <br>
-            <label for="typeInput">Type:</label>
-            <input type="text" id="typeInputCombined" name="type" placeholder="Type">
-        <br>
-            <label for="lengthRangeInput">Length Range:</label>
-            <input type="number" id="minLengthInput" name="minLength" placeholder="Min Length">
-            <input type="number" id="maxLengthInput" name="maxLength" placeholder="Max Length">
-        <br>
-            <label for="latLonRangeInput">Latitude and Longitude Range:</label>
-            <input type="number" id="startLatInputCombined" name="startLat" placeholder="Start Latitude">
-            <input type="number" id="endLatInputCombined" name="endLat" placeholder="End Latitude">
-            <input type="number" id="startLonInputCombined" name="startLon" placeholder="Start Longitude">
-            <input type="number" id="endLonInputCombined" name="endLon" placeholder="End Longitude">
-        <br>
-            <label for="timestampRangeInput">Timestamp Range:</label>
-            <input type="number" id="startTimestampInputCombined" name="startTimestamp" placeholder="Start Timestamp">
-            <input type="number" id="endTimestampInputCombined" name="endTimestamp" placeholder="End Timestamp">
-        <br>
-            <label for="speedRangeInput">Speed Range:</label>
-            <input type="number" id="minSpeedInputCombined" name="minSpeed" placeholder="Min Speed">
-            <input type="number" id="maxSpeedInputCombined" name="maxSpeed" placeholder="Max Speed">
-    <button type="submit">Search</button>
-
-    </form>
-
-
-    <h1>Ship Info List</h1>
+    <h1>查询结果列表</h1>
+    <p>没有进行查找，下面是测试数据</p>
     <button id="exportCSVButton">Export as CSV</button>
-    <button id="exportExcelButton">Export as Excel</button>
+    <button id="exportExcelButton1">Export as Excel</button>
     <table id="shipList">
         <thead>
         <tr>
@@ -194,18 +151,19 @@
             <th>speed</th>
             <th>time</th>
             <th>fixed</th>
-            <!-- Add more table headers for other ship attributes -->
+            <!-- Add more -->
         </tr>
         </thead>
         <tbody>
-<!--         Ship data will be dynamically added here-->
+<!--     -->
         </tbody>
     </table>
 
-
 </div>
 <script type="text/javascript" src="./js/xlsx.core.min.js"></script>
+<!--<script src="js/websocketConnect.js"></script>-->
 <script src="js/script.js"></script>
+<!--<script src="js/fileReader.js"></script>-->
 <script src="js/Timer.js"></script>
 <script src="js/pad.js"></script>
 </body>
