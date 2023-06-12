@@ -4,8 +4,10 @@ import okhttp3.OkHttpClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class ZhApplication {
 
     public static void main(String[] args) {
@@ -13,9 +15,9 @@ public class ZhApplication {
 
     }
 //    使用@Bean注解定义一个OkHttpClient的Bean，以便后续使用
-    @Bean
-    public OkHttpClient okHttpClient() {
-        return new OkHttpClient();
-    }
+//    @Bean
+//    public OkHttpClient okHttpClient() {
+//        return new OkHttpClient();
+//    }
 
 }

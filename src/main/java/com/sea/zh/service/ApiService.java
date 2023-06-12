@@ -2,9 +2,14 @@ package com.sea.zh.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+//import com.sea.zh.client.TokenHolder;
+
 import com.sea.zh.model.ShipInfo;
 import okhttp3.*;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,8 +18,27 @@ import java.io.IOException;
  * 返回值：access_token, String
  * */
 @Service
+@Component
 public class ApiService {
+    // 定义一个静态变量，用来保存token值
+    public static String token;
+//    静态变量，它的值是在类加载时初始化的，但是之后可以被修改
     private final OkHttpClient httpClient = new OkHttpClient();
+
+    //token刷新
+    @Scheduled(fixedRate = 6 * 60 * 60 * 1000)
+    public void refreshToken() {
+        // 调用ApiService.getToken()方法获取token值
+//        String token;
+        try {
+            token = this.getToken();
+            // 打印token的值
+            System.out.println("Token refreshed: " + token);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public String getToken() throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -40,12 +64,15 @@ public class ApiService {
     }
 
     public String getShipInfo(String targetId,  int mmsi){
-        String token = null;
-        try {
-            token = this.getToken();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        String token = null;
+//        token = TokenHolder.token;
+//        token = TokenRefreshTask.getToken();
+//        try {
+//
+//            token = this.getToken();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         OkHttpClient client = new OkHttpClient();
 
         // 使用传递的参数构建URL

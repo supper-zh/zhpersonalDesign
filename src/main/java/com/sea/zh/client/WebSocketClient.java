@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 
-@ConfigurationProperties
+
 //@Configuration
 //@EnableScheduling
 @Component
@@ -25,9 +25,9 @@ import java.io.IOException;
 public class WebSocketClient {
     private final OkHttpClient httpClient;
     private WebSocket webSocket;
-    private final ApiService apiService;
+//    private final ApiService apiService;
     // WebSocket连接的自动刷新间隔（毫秒）
-    private static final long REFRESH_INTERVAL = 60 * 60 * 1000; // 60分钟
+//    private static final long REFRESH_INTERVAL = 60 * 60 * 1000; // 60分钟
 
     // MongoDB连接相关配置
     private static final String MONGO_HOST = "localhost";
@@ -39,28 +39,15 @@ public class WebSocketClient {
     private MongoCollection<Document> collection;
 
     @Autowired
-    public WebSocketClient(ApiService apiService) {
-        this.apiService = apiService;
+    public WebSocketClient() {
+//        this.apiService = apiService;
         this.httpClient = new OkHttpClient();
 
         mongoClient = MongoClients.create("mongodb://" + MONGO_HOST + ":" + MONGO_PORT);
         database = mongoClient.getDatabase(MONGO_DATABASE);
         collection = database.getCollection(MONGO_COLLECTION);
     }
-//    @Override
-//    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-////        配置定时任务：
-////        设置任务的固定延迟时间，并指定要执行的方法。
-////        将reconnectWebSocket方法作为定时任务，使其每隔指定的刷新间隔自动执行。
-//        taskRegistrar.addFixedDelayTask(this::reconnectWebSocket, REFRESH_INTERVAL);
-//    }
-//
-//    private void reconnectWebSocket() {
-//        //        先关闭
-//        closeConnection();
-//        // 重新连接WebSocket
-//        connectAndReceiveData();
-//    }
+
 
     //    // 将数据存储到MongoDB数据库
     private void storeData(JSONObject data) {
@@ -70,13 +57,13 @@ public class WebSocketClient {
     }
 
     public void connectAndReceiveData() {
-        String accessToken = null;  //发送登录请求获取token
-        try {
-            accessToken = apiService.getToken();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//        String accessToken = MyApplicationRunner.token; //获取动态刷新的token
+        String accessToken = ApiService.token;
+//        try {
+//            accessToken = apiService.getToken();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+////        String accessToken = MyApplicationRunner.token; //获取动态刷新的token
         if (accessToken == null) {
             System.out.println("connectAndReceiveData——WebSocketClient获取AccessToken失败");
             return;

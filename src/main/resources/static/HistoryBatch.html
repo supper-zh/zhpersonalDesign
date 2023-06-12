@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>船舶历史数据查询</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/style2.css">
     <link rel="stylesheet" href="css/style3.css">
-
+    <script type="text/javascript" src="./js/xlsx.core.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <script src="js/HistoryBatch.js"></script>-->
+    <script src="js/HistoryBatch2.js"></script>
 </head>
 <body>
 <nav>
@@ -22,7 +24,7 @@
 </nav>
 
 <div class="main">
-<h2>船舶历史数据查询</h2>
+<h2>批量船舶历史数据查询(最近一月内)</h2>
 <form id="queryForm">
     <p>时间输入示例：2023-05-30 16:49:38</p>
     <label for="startTimeInput">起始时间：</label>
@@ -31,26 +33,17 @@
     <label for="endTimeInput">结束时间：</label>
     <input type="text" id="endTimeInput" name="endTimeInput" placeholder="输入结束时间（必填）"><br>
 
-    <label for="targetIdInput">target Id ：</label>
-    <input type="text" id="targetIdInput" name="targetIdInput" placeholder="输入targetId（必填）"><br>
+    <label for="csvFileInput">选择CSV文件：</label>
+    <input type="file" id="csvFileInput"> <br>
 
-<!--    <label for="mmsiInput">target Id查询列表：</label>-->
-<!--    <input type="file" id="csvFileInput" placeholder="批量导入targetID"> <br>-->
-
-    <label for="mmsiInput">M M S I ：</label>
-    <input type="text" id="mmsiInput" name="mmsiInput" placeholder="输入mmsi（非必填）"><br>
-
-    <label for="zoomInput">缩放级别：</label>
-    <input type="text" id="zoomInput" name="zoomInput" placeholder="(1~10)默认为10（非必填）"><br>
-    <button type="submit">查  询</button>
-<!--    <button id="ImportCSVButton">导入CSV文件批量查询</button>-->
+    <button type="submit" id="BatchSearchButton" >批量查询</button>
 </form>
 
-<button id="HistoryExportCSVButton">导出为CSV</button>
+<button type="button" id="HistoryExportCSVButton">导出为CSV</button>
 <div id="result">{查询结果展示区}</div>
 
 </div>
-<script type="text/javascript" src="./js/xlsx.core.min.js"></script>
-<script src="js/History.js"></script>
+
+
 </body>
 </html>

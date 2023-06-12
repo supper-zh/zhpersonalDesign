@@ -25,9 +25,6 @@ public class ShipService {
         this.shipRepository = shipRepository;
     }
 
-//    public List<Ship> getAllShips() {
-//        return shipRepository.findAllShip();
-//    }
     public List<Ship> getShipsBytargetId(String targetId) {
         return shipRepository.findBytargetId(targetId);
     }
@@ -38,11 +35,9 @@ public class ShipService {
     public List<Ship> getShipsByLatitudeRange(double start, double end) {
         return shipRepository.findByLatitudeBetween(start, end);
     }
-
     public List<Ship> getShipsByLongtitudeRange(double start, double end) {
         return shipRepository.findByLongitudeBetween(start, end);
     }
-
     public List<Ship> getShipsByType(String type) {
         return shipRepository.findByType(type);
     }
@@ -55,7 +50,6 @@ public class ShipService {
         return shipRepository.findByTimestampBetween(startTimestamp, endTimestamp);
     }
     public List<Ship> getShipsByLengthRange(double minLength, double maxLength) {
-        // Delegate the query to the shipRepository or any other data access layer
         return shipRepository.findByLengthBetween(minLength, maxLength);
     }
     public List<Ship> getShipsByLatitudeAndLongitudeRange(double startLat, double endLat, double startLon, double endLon) {
@@ -67,10 +61,8 @@ public class ShipService {
     }
     public List<ShipInfo> getShipDetail(String targetId, int mmsi){
 
-        List<ShipInfo> shipInfo = shipRepository.findShipDetail(targetId, mmsi);
-        return shipInfo;
+        return shipRepository.findShipDetail(targetId, mmsi);
     }
-
     public List<Ship> getShipsByState(int state) {
         return shipRepository.findByState(state);
     }

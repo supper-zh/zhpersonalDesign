@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>船舶历史数据查询</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/style3.css">
+    <script type="text/javascript" src="./js/xlsx.core.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/HistoryLunar.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="index.html">查询船舶数据</a></li>
+        <li><a href="shipsDetail.html">查询船舶详细信息</a></li>
+        <li><a href="History.html">查询船舶历史数据</a></li>
+        <li><a href="HistoryLunar.html">批量查询船舶历史数据</a></li>
+        <li><a href="connectControl.html">远程连接控制</a></li>
+    </ul>
+</nav>
+
+<div class="main">
+<h2>批量船舶历史数据查询(最近一月内)</h2>
+<form id="queryForm">
+
+    <label for="csvFileInput">选择CSV文件：</label>
+    <input type="file" id="csvFileInput"> <br>
+
+    <div>
+    <h3>CSV文件示例（包含标题行）：</h3>
+    <p>
+        targetId,mmsi<br>
+        7351758690000047618,412310326<br>
+        7351770590000073573,200013028<br>
+        7351874600000292467,203388000<br>
+        7351753340000031132,412500991<br>
+        7350139680022060254,413819126<br>
+        ...<br>
+    </p>
+
+    </div>
+    <button type="submit" id="BatchSearchButton" >批量查询</button>
+    <p>需等待批量查询结果，未设置异常处理，请勿重复点击</p>
+</form>
+
+<button type="button" id="HistoryExportCSVButton">导出为CSV</button>
+<div id="result">{查询结果展示区}</div>
+
+</div>
+
+
+</body>
+</html>

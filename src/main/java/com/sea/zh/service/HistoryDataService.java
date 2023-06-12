@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sea.zh.model.HistoryData;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,41 +13,41 @@ import java.io.IOException;
 public class HistoryDataService {
     private static final String HISTORY_DATA_URL = "https://bs.uniseas.com.cn/apiv1/external/target/track/history";
 
-    private final ApiService apiService;
+//    private final ApiService apiService;
 
     private final OkHttpClient client;
 
-    public HistoryDataService(ApiService apiService, OkHttpClient client) {
-        this.apiService = apiService;
+    @Autowired
+    public HistoryDataService(OkHttpClient client) {
+//        this.apiService = apiService;
         this.client = client;
     }
 
     public HistoryData getHistoryData(Long startTime, Long endTime, String targetId, Integer mmsi, Integer zoom){
 
-        String accessToken;  //发送登录请求获取token
+        String accessToken = ApiService.token;
 
-        try {
-            accessToken = apiService.getToken();
-            System.out.println("getHistoryData——获取AccessToken成功,accessToken："+ accessToken);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (accessToken == null) {
-            System.out.println("getHistoryData——获取AccessToken失败,accessToken:" + accessToken);
-            return null;
-        }
         String Authorization_header = "Bearer " + accessToken;
 
 
         MediaType mediaType = MediaType.parse("application/json");
+        String requestBody = null;
 //        RequestBody body = RequestBody.create(mediaType, "{\r\n\t\"startTime\": \"1685436578875\",\r\n\t\"endTime\": \"1685497579875\",\r\n\t\"targetId\": \"7388326400000338584\",\r\n\t\"mmsi\": \"413283880\",\r\n\t\"zoom\": \"\"\r\n}");
-        String requestBody = "{\r\n\t\"" +
-                "startTime\": \"" + startTime + "\",\r\n\t\"" +
-                "endTime\": \"" + endTime + "\",\r\n\t\"" +
-                "targetId\": \"" + targetId + "\",\r\n\t\"" +
-                "mmsi\": \"" + mmsi + "\",\r\n\t\"" +
-                "zoom\": \"" + zoom + "\"\r\n}";
+        if(mmsi == null){
+            requestBody = "{\r\n\t\"" +
+                    "startTime\": \"" + startTime + "\",\r\n\t\"" +
+                    "endTime\": \"" + endTime + "\",\r\n\t\"" +
+                    "targetId\": \"" + targetId + "\",\r\n\t\"" +
+                    "zoom\": \"" + zoom + "\"\r\n}";
+        }else {
+            requestBody = "{\r\n\t\"" +
+                    "startTime\": \"" + startTime + "\",\r\n\t\"" +
+                    "endTime\": \"" + endTime + "\",\r\n\t\"" +
+                    "targetId\": \"" + targetId + "\",\r\n\t\"" +
+                    "mmsi\": \"" + mmsi + "\",\r\n\t\"" +
+                    "zoom\": \"" + zoom + "\"\r\n}";
+        }
+
         RequestBody body = RequestBody.create(mediaType, requestBody);
 
         Request request = new Request.Builder()
