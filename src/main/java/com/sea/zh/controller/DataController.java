@@ -1,10 +1,14 @@
 package com.sea.zh.controller;
 
 import com.sea.zh.model.Ship;
+import com.sea.zh.model.ShipInfo;
 import com.sea.zh.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 @RestController
 @RequestMapping("/api/ship")
@@ -17,6 +21,19 @@ public class DataController {
     @Autowired
     public DataController(ShipService shipService) {
         this.shipService = shipService;
+    }
+
+    @GetMapping("/ShipInfo/{targetId}/{mmsi}")
+    public ResponseEntity<List<ShipInfo>> getShipDetail(@PathVariable String targetId, @PathVariable int mmsi) {
+        List<ShipInfo> shipInfo = shipService.getShipDetail(targetId, mmsi);
+        return ResponseEntity.ok(shipInfo);
+    }
+
+
+    @GetMapping("/targetId/{targetId}")
+    public ResponseEntity<List<Ship>> getShipsByTargetId(@PathVariable String targetId) {
+        List<Ship> ships = shipService.getShipsBytargetId(targetId);
+        return ResponseEntity.ok(ships);
     }
 
     //    根据mmsi字段查询船舶信息
@@ -37,6 +54,16 @@ public class DataController {
         List<Ship> ships = shipService.getShipsByState(state);
         return ResponseEntity.ok(ships);
     }
+
+//    分页查询方法
+//    @GetMapping("/state/{state}")
+//    public ResponseEntity<Page<Ship>> getShipsByState(@PathVariable int state,
+//                                                      @RequestParam(defaultValue = "0") int page,
+//                                                      @RequestParam(defaultValue = "20") int size) {
+//        Page<Ship> ships = shipService.getShipsByState(state, page, size);
+//        return ResponseEntity.ok(ships);
+//    }
+
     //    根据type字段查询船舶信息
     @GetMapping("/type/{type}")
     public ResponseEntity<List<Ship>> getShipsByType(@PathVariable String type) {
@@ -66,7 +93,7 @@ public class DataController {
     //    查询长度大于指定值的船舶信息
     @GetMapping("/length/{length}")
     public ResponseEntity<List<Ship>> getShipsByLengthGreaterThan(@PathVariable int length) {
-        List<Ship> ships = shipService.getShipsByLengthGreaterThan(length);
+        List<Ship> ships = shipService.getShipsByLength(length);
         return ResponseEntity.ok(ships);
     }
     //  查询船舶长度在指定范围内的信息
@@ -99,7 +126,14 @@ public class DataController {
     @PostMapping("/mmsiList")
     public ResponseEntity<List<Ship>> getShipsByMmsiList(@RequestBody List<Integer> mmsiList) {
         List<Ship> ships = shipService.getShipsByMmsiList(mmsiList);
-        return ResponseEntity.ok(ships);
+//        / 设置响应头部的 Content-Type 为 application/json
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // 返回 JSON 数据
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(ships);
+//        return ResponseEntity.ok(ships);
     }
     @GetMapping("/search")
     public ResponseEntity<List<Ship>> searchShips(

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ship Data</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/style3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <title>查询船舶数据</title>-->
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="index.html">查询船舶数据</a></li>
+        <li><a href="shipsDetail.html">查询船舶详细信息</a></li>
+        <li><a href="History.html">查询船舶历史数据</a></li>
+        <li><a href="connectControl.html">远程连接控制</a></li>
+    </ul>
+</nav>
+
+
+
+
+
+<div class="main">
+    <h2>控制本地数据库接收数据</h2>
+    <button id="getTokenButton">获取Token,测试连接</button>
+    <button id="startWebSocketButton">开启连接接收实时数据</button>
+    <button id="stopWebSocketButton">关闭连接停止接收数据</button>
+</div>
+
+<div id="responseContainer" style="margin-top: 20px;"></div>
+
+<script type="text/javascript" src="./js/xlsx.core.min.js"></script>
+<script src="js/websocketConnect.js"></script>
+<!--<script src="js/script.js"></script>-->
+<!--<script src="js/fileReader.js"></script>-->
+<!--<script src="js/Timer.js"></script>-->
+<!--<script src="js/pad.js"></script>-->
+</body>
+</html>

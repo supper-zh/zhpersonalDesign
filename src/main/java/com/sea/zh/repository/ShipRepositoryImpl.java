@@ -1,10 +1,8 @@
 package com.sea.zh.repository;
 
 import com.sea.zh.model.Ship;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.sea.zh.model.ShipInfo;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,6 +18,12 @@ public  class ShipRepositoryImpl implements ShipRepository {
 
     public ShipRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    @Override
+    public List<Ship> findBytargetId(String targetId) {
+        Query query = Query.query(Criteria.where("targetId").is(targetId));
+        return mongoTemplate.find(query, Ship.class);
     }
 
     @Override
@@ -59,6 +63,13 @@ public  class ShipRepositoryImpl implements ShipRepository {
     }
 
     @Override
+    public List<ShipInfo> findShipDetail(String targetId, int mmsi) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("targetId").is(targetId).and("mmsi").is(mmsi));
+        return mongoTemplate.find(query, ShipInfo.class);
+    }
+
+    @Override
     public List<Ship> findByLatitudeBetweenAndLongitudeBetween(double startLat, double endLat, double startLon, double endLon) {
         Query query = Query.query(Criteria.where("latitude").gte(startLat).lte(endLat)
                 .and("longitude").gte(startLon).lte(endLon));
@@ -85,6 +96,12 @@ public  class ShipRepositoryImpl implements ShipRepository {
     }
 
     @Override
+    public List<Ship> findByLength(int length) {
+        Query query = Query.query(Criteria.where("length").is(length));
+        return mongoTemplate.find(query, Ship.class);
+    }
+
+    @Override
     public List<Ship> findBySpeedLessThan(double speed) {
         Query query = Query.query(Criteria.where("speed").lt(speed));
         return mongoTemplate.find(query, Ship.class);
@@ -105,6 +122,18 @@ public  class ShipRepositoryImpl implements ShipRepository {
     @Override
     public List<Ship> searchShips(Query query) {
         return mongoTemplate.find(query, Ship.class);
+    }
+
+    @Override
+    public Page<Ship> findByStatePage(int state, Pageable pageable) {
+        Query query = Query.query(Criteria.where("state").is(state));
+        long total = mongoTemplate.count(query, Ship.class);//计算满足查询条件的船舶总数
+//        使用pageable对象设置查询的分页信息，包括页码、每页大小和排序规则。
+        query.with(pageable);
+
+        List<Ship> ships = mongoTemplate.find(query, Ship.class);
+//        将查询结果、分页信息和总记录数封装到PageImpl对象中，并返回该对象作为查询结果
+        return new PageImpl<>(ships, pageable, total);
     }
 
     @Override
